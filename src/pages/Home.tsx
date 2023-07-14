@@ -40,7 +40,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="bg-slate-300 h-screen">Home</div>
+      <div className="h-screen">Home</div>
 
       <footer className="footer p-10 bg-base-200 text-base-content">
         <div>
