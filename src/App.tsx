@@ -1,5 +1,7 @@
+import MainLayout from "./layouts/MainLayout";
+
 function App() {
-  return <div>Book Catalog</div>;
+  return <MainLayout />;
 }
 
 export default App;
