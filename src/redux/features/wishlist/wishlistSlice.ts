@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 type wishlistState = {
-  books: [];
+  books: string[];
 };
 const initialState: wishlistState = {
   books: [],
