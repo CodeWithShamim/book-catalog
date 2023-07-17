@@ -1,4 +1,9 @@
+import { Link } from "react-router-dom";
+import { useAppSelector } from "../../redux/hook";
+
 export default function Navbar() {
+  const { user } = useAppSelector((state) => state.user);
+
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
@@ -13,18 +18,22 @@ export default function Navbar() {
           />
         </div>
 
-        <ul
-          tabIndex={0}
-          className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
-        >
+        <ul tabIndex={0} className=" p-3 flex gap-5">
           <li>
-            <a className="justify-between">Profile</a>
+            <button className="btn btn-ghost">
+              <Link to="/all-books">All Books</Link>
+            </button>
           </li>
           <li>
-            <a>Settings</a>
-          </li>
-          <li>
-            <a>Logout</a>
+            {user?.email ? (
+              <button className="btn btn-ghost">
+                <Link to="/all-books">Logout</Link>
+              </button>
+            ) : (
+              <button className="btn btn-ghost">
+                <Link to="/login">Login</Link>
+              </button>
+            )}
           </li>
         </ul>
       </div>
