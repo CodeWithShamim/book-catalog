@@ -1,7 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
-import { loginUser } from "../redux/features/user/userSlice";
+import {
+  loginUser,
+  setLoading,
+  setUser,
+} from "../redux/features/user/userSlice";
 import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../lib/firebase";
+import Loading from "../components/Loading";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
@@ -23,6 +30,18 @@ export default function Login() {
   useEffect(() => {
     if (user?.email && !isLoading) navigate("/");
   }, [user, navigate, isLoading]);
+
+  useEffect(() => {
+    dispatch(setLoading(true));
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        dispatch(setUser(user.email));
+      }
+      dispatch(setLoading(false));
+    });
+  }, [dispatch]);
+
+  if (isLoading) return <Loading />;
 
   return (
     <div className="hero min-h-screen bg-base-200">
