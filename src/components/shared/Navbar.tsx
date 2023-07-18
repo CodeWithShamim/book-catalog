@@ -1,8 +1,14 @@
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../redux/hook";
+import { signOut } from "firebase/auth";
+import { auth } from "../../lib/firebase";
 
 export default function Navbar() {
   const { user } = useAppSelector((state) => state.user);
+
+  const handleLogout = async () => {
+    await signOut(auth);
+  };
 
   return (
     <div className="navbar bg-base-100">
@@ -26,7 +32,8 @@ export default function Navbar() {
           </li>
           <li>
             {user?.email ? (
-              <button className="btn btn-ghost">
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
+              <button className="btn btn-ghost" onClick={handleLogout}>
                 <Link to="/all-books">Logout</Link>
               </button>
             ) : (

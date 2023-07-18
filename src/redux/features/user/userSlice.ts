@@ -55,6 +55,7 @@ export const userSlice = createSlice({
     builder
       .addCase(createUser.pending, (state) => {
         state.isLoading = true;
+        state.error = "";
       })
       .addCase(createUser.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -67,6 +68,7 @@ export const userSlice = createSlice({
       })
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
+        state.error = "";
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
