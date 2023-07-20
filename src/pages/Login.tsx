@@ -1,4 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import {
   loginUser,
@@ -16,6 +18,7 @@ export default function Login() {
   const dispatch = useAppDispatch();
   const { user, isLoading, error } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogin = async () => {
     if (!email || !password) return;
@@ -28,8 +31,12 @@ export default function Login() {
   };
 
   useEffect(() => {
-    if (user?.email && !isLoading) navigate("/");
-  }, [user, navigate, isLoading]);
+    if (location.state?.path && user.email) {
+      navigate(location.state?.path);
+    } else {
+      if (user?.email && !isLoading) navigate("/");
+    }
+  }, [user, navigate, isLoading, location]);
 
   useEffect(() => {
     dispatch(setLoading(true));
