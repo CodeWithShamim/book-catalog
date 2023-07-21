@@ -6,6 +6,8 @@ import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import AllBooks from "../pages/AllBooks";
 import PrivateRoute from "./PrivateRoute";
+import AddBook from "../pages/AddBook";
+import Wishlist from "../pages/Wishlist";
 
 const router = createBrowserRouter([
   {
@@ -18,9 +20,21 @@ const router = createBrowserRouter([
       },
       {
         path: "/all-books",
+        element: <AllBooks />,
+      },
+      {
+        path: "/add-book",
         element: (
           <PrivateRoute>
-            <AllBooks />
+            <AddBook />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/wishlist",
+        element: (
+          <PrivateRoute>
+            <Wishlist />
           </PrivateRoute>
         ),
       },
