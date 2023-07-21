@@ -6,11 +6,11 @@ interface IProps {
 }
 
 export default function BookCard({ book }: IProps) {
-  const { title, author, genre, publicationDate, image } = book;
+  const { _id: id, title, author, genre, publicationDate, image } = book;
   return (
-    <div className="card card-compact bg-base-100 shadow-xl hover:shadow-2xl hover:scale-[102%] transition-all gap-2">
+    <div className="card card-compact bg-base-100 shadow-xl hover:shadow-2xl hover:scale-[103%] transition-all gap-2">
       <figure>
-        <img className="w-72" src={image} alt={title} />
+        <img className="w-full" src={image} alt={title} />
       </figure>
       <div className="card-body">
         <h2 className="card-title">{title}</h2>
@@ -20,7 +20,7 @@ export default function BookCard({ book }: IProps) {
         <div className="flex justify-around">
           <button className="btn btn-sm btn-primary">Add wishlist</button>
 
-          <Link to={`/book-details/${"_id"}`}>
+          <Link to={`/book-details/${id}`}>
             <button className="btn btn-sm btn-success">Details</button>
           </Link>
         </div>
