@@ -43,7 +43,7 @@ export default function Navbar() {
               <button className="btn btn-ghost">
                 <Link to="/wishlist">Wishlist</Link>
               </button>
-              <button className="btn btn-ghost" onClick={handleLogout}>
+              <button className="btn btn-primary" onClick={handleLogout}>
                 Logout
               </button>
             </>
@@ -92,7 +92,7 @@ export default function Navbar() {
                 <button className="btn btn-ghost">
                   <Link to="/wishlist">Wishlist</Link>
                 </button>
-                <button className="btn btn-ghost" onClick={handleLogout}>
+                <button className="btn btn-primary" onClick={handleLogout}>
                   Logout
                 </button>
               </>
