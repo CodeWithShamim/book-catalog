@@ -1,18 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { useEffect } from "react";
 import BookCard from "../components/BookCard";
 import SkeletonCard from "../components/skeleton/SkeletonCard";
 import { useGetBooksQuery } from "../redux/features/books/bookApi";
 import { IBook } from "../types";
+import { toast } from "react-hot-toast";
 
 export default function Home() {
-  const { isLoading, data, isError, error } = useGetBooksQuery(undefined);
+  const { isLoading, data, error } = useGetBooksQuery(undefined);
 
-  console.log(isLoading, "IsLoading");
-  console.log(data);
-  console.log(isError);
-  console.log(error);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      error && toast.error("Something went wrong");
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [error]);
 
   return (
     <div className="py-16">
