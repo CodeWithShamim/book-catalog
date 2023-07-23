@@ -1,3 +1,4 @@
+import { IReviews } from "../../../types";
 import { api } from "../../api/apiSlice";
 
 const bookApi = api.injectEndpoints({
@@ -8,6 +9,7 @@ const bookApi = api.injectEndpoints({
     }),
     singleBook: builder.query({
       query: (id: string) => `/book/${id}`,
+      providesTags: ["comments"],
     }),
     deleteBook: builder.mutation({
       query: (id: string) => ({
@@ -16,8 +18,20 @@ const bookApi = api.injectEndpoints({
       }),
       invalidatesTags: ["books"],
     }),
+    addComment: builder.mutation({
+      query: ({ id, data }: { id: string; data: IReviews }) => ({
+        url: `/comment/${id}`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["comments"],
+    }),
   }),
 });
 
-export const { useGetBooksQuery, useSingleBookQuery, useDeleteBookMutation } =
-  bookApi;
+export const {
+  useGetBooksQuery,
+  useSingleBookQuery,
+  useDeleteBookMutation,
+  useAddCommentMutation,
+} = bookApi;

@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
+  useAddCommentMutation,
   useDeleteBookMutation,
   useSingleBookQuery,
 } from "../redux/features/books/bookApi";
@@ -12,13 +14,22 @@ import Modal from "../components/Modal";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { IReviews } from "../types";
+import { useAppSelector } from "../redux/hook";
 
 export default function BookDetails() {
   const { id } = useParams();
-  const { data, isLoading } = useSingleBookQuery(id as string);
+  const { user } = useAppSelector((state) => state.user);
+
+  const { data, isLoading } = useSingleBookQuery(id as string, {
+    pollingInterval: 30000,
+    refetchOnMountOrArgChange: true,
+  });
   const book = data?.data;
   const [deleteBook, { isLoading: isLoading2, data: data2 }] =
     useDeleteBookMutation();
+  const [addComment, { isLoading: isLoading3, data: data3 }] =
+    useAddCommentMutation();
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const openModal = window as any;
   const navigate = useNavigate();
@@ -29,9 +40,19 @@ export default function BookDetails() {
     await deleteBook(id as string);
   };
 
-  const handleAddComment = () => {
-    console.log(comment, "comment");
-    console.log(rating, "rating");
+  const handleAddComment = async () => {
+    if (!comment) return;
+
+    const commentOptions = {
+      id: id as string,
+      data: {
+        username: user?.email?.split("@")[0],
+        comment,
+        ...(rating ? { rating } : {}),
+      },
+    };
+
+    await addComment(commentOptions);
   };
 
   useEffect(() => {
@@ -39,7 +60,11 @@ export default function BookDetails() {
       toast.success(data2.message as string);
       setTimeout(() => navigate("/all-books"), 1300);
     }
-  }, [data2, navigate]);
+
+    if (data3?.success) {
+      toast.success(data3.message as string);
+    }
+  }, [data2, navigate, data3]);
 
   return (
     <div className="py-16 md:px-6">
@@ -119,8 +144,12 @@ export default function BookDetails() {
             <option value={4}>4</option>
             <option value={5}>5</option>
           </select>
-          <button onClick={handleAddComment} className="btn btn-primary mt-2">
-            Comment
+          <button
+            disabled={isLoading3}
+            onClick={handleAddComment}
+            className="btn btn-primary mt-2"
+          >
+            {isLoading3 ? "Comment adding..." : "Comment"}
           </button>
         </div>
       </div>
