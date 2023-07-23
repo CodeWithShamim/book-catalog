@@ -53,6 +53,8 @@ export default function BookDetails() {
     };
 
     await addComment(commentOptions);
+    setComment("");
+    setRating(0);
   };
 
   useEffect(() => {
@@ -127,12 +129,14 @@ export default function BookDetails() {
         <textarea
           className="textarea textarea-bordered w-full"
           onChange={(e) => setComment(e.target.value)}
+          value={comment}
           placeholder="Write a comment..."
         ></textarea>
 
         <div className="flex items-center justify-center">
           <select
             onChange={(e) => setRating(Number(e.target.value))}
+            value={rating}
             className="select select-bordered w-full max-w-xs mt-2 mr-1"
           >
             <option disabled selected>
@@ -156,7 +160,7 @@ export default function BookDetails() {
 
       {/* show review  */}
       <div>
-        {book?.reviews.map((review: IReviews) => (
+        {book?.reviews?.map((review: IReviews) => (
           <>
             <div className="flex items-center justify-start w-full gap-4 mt-4">
               <div className="flex flex-col justify-center items-start w-12">

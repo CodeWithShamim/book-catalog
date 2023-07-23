@@ -4,10 +4,14 @@ import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { signOut } from "firebase/auth";
 import { auth } from "../../lib/firebase";
 import { setUser } from "../../redux/features/user/userSlice";
+import { useState } from "react";
 
 export default function Navbar() {
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [filtersValue, setFiltersValue] = useState<string>("");
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -22,19 +26,25 @@ export default function Navbar() {
         </Link>
       </div>
 
-      {/* search & filter option  */}
       <div className="flex-none gap-2">
+        {/* search & filter option for laptop & desktop */}
         <div className="form-control">
           <div className="join">
             <div>
               <div>
                 <input
-                  className="input input-bordered join-item"
-                  placeholder="Search"
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  value={searchValue}
+                  className="input input-bordered md:join-item"
+                  placeholder="Search books..."
                 />
               </div>
             </div>
-            {/* <select className="select select-bordered join-item">
+            <select
+              onChange={(e) => setFiltersValue(e.target.value)}
+              value={filtersValue}
+              className="select select-bordered join-item hidden md:block"
+            >
               <option disabled selected>
                 Filter
               </option>
@@ -42,9 +52,6 @@ export default function Navbar() {
               <option>Drama</option>
               <option>Action</option>
             </select>
-            <div className="indicator">
-              <button className="btn join-item">Search</button>
-            </div> */}
           </div>
         </div>
 
@@ -98,6 +105,20 @@ export default function Navbar() {
             tabIndex={0}
             className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-44 text-left"
           >
+            {/* filter option for mobile */}
+            <select
+              onChange={(e) => setFiltersValue(e.target.value)}
+              value={filtersValue}
+              className="select select-bordered join-item"
+            >
+              <option disabled selected>
+                Filter
+              </option>
+              <option>Sci-fi</option>
+              <option>Drama</option>
+              <option>Action</option>
+            </select>
+
             <button className="btn btn-ghost">
               <Link to="/all-books">All Books</Link>
             </button>

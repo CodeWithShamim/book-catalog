@@ -26,7 +26,7 @@ export default function Home() {
         {/* add loading skeletion */}
         {isLoading && [...Array(10)].map(() => <SkeletonCard />)}
 
-        {data?.data?.map((book: IBook) => (
+        {data?.data?.slice(0, 10)?.map((book: IBook) => (
           <BookCard key={book._id} book={book} />
         ))}
       </div>
