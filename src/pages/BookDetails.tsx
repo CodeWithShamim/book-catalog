@@ -9,8 +9,9 @@ import {
 } from "../redux/features/books/bookApi";
 import SkeletonDetails from "../components/skeleton/SkeletonDetails";
 import Modal from "../components/Modal";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import { IReviews } from "../types";
 
 export default function BookDetails() {
   const { id } = useParams();
@@ -21,9 +22,16 @@ export default function BookDetails() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const openModal = window as any;
   const navigate = useNavigate();
+  const [comment, setComment] = useState<string>("");
+  const [rating, setRating] = useState<number>(0);
 
   const handleDeleteBook = async () => {
     await deleteBook(id as string);
+  };
+
+  const handleAddComment = () => {
+    console.log(comment, "comment");
+    console.log(rating, "rating");
   };
 
   useEffect(() => {
@@ -88,6 +96,56 @@ export default function BookDetails() {
         message="Are you sure you want to delete this item."
         fn={handleDeleteBook}
       />
+
+      {/* Add reviews  */}
+      <div className="py-16 flex flex-col items-end justify-center">
+        <textarea
+          className="textarea textarea-bordered w-full"
+          onChange={(e) => setComment(e.target.value)}
+          placeholder="Write a comment..."
+        ></textarea>
+
+        <div className="flex items-center justify-center">
+          <select
+            onChange={(e) => setRating(Number(e.target.value))}
+            className="select select-bordered w-full max-w-xs mt-2 mr-1"
+          >
+            <option disabled selected>
+              Ratings
+            </option>
+            <option value={1}>1</option>
+            <option value={2}>2</option>
+            <option value={3}>3</option>
+            <option value={4}>4</option>
+            <option value={5}>5</option>
+          </select>
+          <button onClick={handleAddComment} className="btn btn-primary mt-2">
+            Comment
+          </button>
+        </div>
+      </div>
+
+      {/* show review  */}
+      <div>
+        {book?.reviews.map((review: IReviews) => (
+          <>
+            <div className="flex items-center justify-start w-full gap-4 mt-4">
+              <div className="flex flex-col justify-center items-start w-12">
+                <div className="avatar">
+                  <div className="w-8 h-8 rounded-full">
+                    <img src="/graduation.jpg" />
+                  </div>
+                </div>
+                <p className="font-semibold text-xs py-1">{review?.username}</p>
+              </div>
+              <h1 className="text-xl font-sans pb-5 max-w-4xl">
+                {review?.comment}
+              </h1>
+            </div>
+            <hr className="h-4 w-full" />
+          </>
+        ))}
+      </div>
     </div>
   );
 }

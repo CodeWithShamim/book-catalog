@@ -21,7 +21,7 @@
 //     "Memoir",
 //   ]
 
-interface IReviews {
+export interface IReviews {
   username: string;
   rating?: number;
   comment: string;
