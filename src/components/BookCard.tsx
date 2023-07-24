@@ -9,9 +9,11 @@ export default function BookCard({ book }: IProps) {
   const { _id: id, title, author, genre, publicationDate, image } = book;
   return (
     <div className="card card-compact bg-base-100 shadow-xl hover:shadow-2xl hover:scale-[103%] transition-all gap-2">
-      <figure>
-        <img className="w-full" src={image} alt={title} />
-      </figure>
+      <Link to={`/book-details/${id}`}>
+        <figure>
+          <img className="w-full" src={image} alt={title} />
+        </figure>
+      </Link>
       <div className="card-body">
         <h2 className="card-title">{title}</h2>
         <p className="text-sm">Author: {author}</p>

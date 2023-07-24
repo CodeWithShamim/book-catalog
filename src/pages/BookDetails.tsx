@@ -136,7 +136,6 @@ export default function BookDetails() {
         <div className="flex items-center justify-center">
           <select
             onChange={(e) => setRating(Number(e.target.value))}
-            value={rating}
             className="select select-bordered w-full max-w-xs mt-2 mr-1"
           >
             <option disabled selected>

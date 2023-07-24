@@ -1,10 +1,15 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IReviews } from "../../../types";
 import { api } from "../../api/apiSlice";
 
 const bookApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getBooks: builder.query({
-      query: () => "/book",
+      query: (queryData?: any) => ({
+        url: `/book/?${queryData}`,
+        method: "GET",
+      }),
       providesTags: ["books"],
     }),
     singleBook: builder.query({

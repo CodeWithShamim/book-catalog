@@ -1,23 +1,19 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { useEffect } from "react";
 import BookCard from "../components/BookCard";
 import SkeletonCard from "../components/skeleton/SkeletonCard";
-import { useGetBooksQuery } from "../redux/features/books/bookApi";
 import { IBook } from "../types";
-import { toast } from "react-hot-toast";
+import { useAppSelector } from "../redux/hook";
 
 export default function Home() {
-  const { isLoading, data, error } = useGetBooksQuery(undefined);
+  const { book, isLoading } = useAppSelector((state) => state.book);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      error && toast.error("Something went wrong");
-    }, 500);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     error && toast.error("Something went wrong");
+  //   }, 500);
 
-    return () => clearTimeout(timer);
-  }, [error]);
+  //   return () => clearTimeout(timer);
+  // }, [error]);
 
   return (
     <div className="py-16">
@@ -26,7 +22,7 @@ export default function Home() {
         {/* add loading skeletion */}
         {isLoading && [...Array(10)].map(() => <SkeletonCard />)}
 
-        {data?.data?.slice(0, 10)?.map((book: IBook) => (
+        {book?.slice(0, 10)?.map((book: IBook) => (
           <BookCard key={book._id} book={book} />
         ))}
       </div>

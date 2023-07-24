@@ -1,26 +1,3 @@
-// [
-//     "Fiction",
-//     "Science Fiction",
-//     "Mystery",
-//     "Romance",
-//     "Non-fiction",
-//     "Fantasy",
-//     "Classic",
-//     "Thriller",
-//     "Biography",
-//     "Historical Fiction",
-//     "Self-help",
-//     "Horror",
-//     "Adventure",
-//     "Young Adult",
-//     "Dystopian",
-//     "Contemporary",
-//     "Poetry",
-//     "Humor",
-//     "Graphic Novel",
-//     "Memoir",
-//   ]
-
 export interface IReviews {
   username: string;
   rating?: number;
@@ -28,11 +5,11 @@ export interface IReviews {
 }
 
 export interface IBook {
-  _id: string;
+  _id?: string;
   title: string;
   author: string;
   genre: string;
   publicationDate: string;
   image: string;
-  reviews: IReviews[];
+  reviews?: IReviews[];
 }

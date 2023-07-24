@@ -1,22 +1,40 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { signOut } from "firebase/auth";
 import { auth } from "../../lib/firebase";
 import { setUser } from "../../redux/features/user/userSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useGetBooksQuery } from "../../redux/features/books/bookApi";
+import { addBook, setLoading } from "../../redux/features/books/bookSlice";
+import { genreData } from "../../utils";
 
 export default function Navbar() {
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-
   const [searchValue, setSearchValue] = useState<string>("");
   const [filtersValue, setFiltersValue] = useState<string>("");
+
+  const endPointURL = `${filtersValue && `genre=${filtersValue}`}${
+    searchValue && `&searchTerm=${searchValue}`
+  }`;
+  const { data, isLoading } = useGetBooksQuery(endPointURL ?? undefined);
 
   const handleLogout = async () => {
     await signOut(auth);
     dispatch(setUser(null));
   };
+
+  useEffect(() => {
+    dispatch(setLoading(isLoading));
+
+    if (data?.success) {
+      dispatch(addBook(data.data));
+    }
+  }, [data, dispatch, isLoading]);
 
   return (
     <div className="navbar bg-base-100">
@@ -42,15 +60,18 @@ export default function Navbar() {
             </div>
             <select
               onChange={(e) => setFiltersValue(e.target.value)}
-              value={filtersValue}
               className="select select-bordered join-item hidden md:block"
             >
               <option disabled selected>
                 Filter
               </option>
-              <option>Sci-fi</option>
-              <option>Drama</option>
-              <option>Action</option>
+              <option value="">All</option>
+
+              {genreData?.map((genre, index) => (
+                <option key={index} value={genre}>
+                  {genre}
+                </option>
+              ))}
             </select>
           </div>
         </div>
@@ -108,15 +129,19 @@ export default function Navbar() {
             {/* filter option for mobile */}
             <select
               onChange={(e) => setFiltersValue(e.target.value)}
-              value={filtersValue}
               className="select select-bordered join-item"
             >
               <option disabled selected>
                 Filter
               </option>
-              <option>Sci-fi</option>
-              <option>Drama</option>
-              <option>Action</option>
+
+              <option value="">All</option>
+
+              {genreData?.map((genre, index) => (
+                <option key={index} value={genre}>
+                  {genre}
+                </option>
+              ))}
             </select>
 
             <button className="btn btn-ghost">
