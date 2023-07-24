@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IReviews } from "../../../types";
+import { IBook, IReviews } from "../../../types";
 import { api } from "../../api/apiSlice";
 
 const bookApi = api.injectEndpoints({
@@ -12,10 +12,21 @@ const bookApi = api.injectEndpoints({
       }),
       providesTags: ["books"],
     }),
+
     singleBook: builder.query({
       query: (id: string) => `/book/${id}`,
       providesTags: ["comments"],
     }),
+
+    createBook: builder.mutation({
+      query: (data: IBook) => ({
+        url: "/book/create-book",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["books"],
+    }),
+
     deleteBook: builder.mutation({
       query: (id: string) => ({
         url: `/book/${id}`,
@@ -23,6 +34,7 @@ const bookApi = api.injectEndpoints({
       }),
       invalidatesTags: ["books"],
     }),
+
     addComment: builder.mutation({
       query: ({ id, data }: { id: string; data: IReviews }) => ({
         url: `/comment/${id}`,
@@ -37,6 +49,7 @@ const bookApi = api.injectEndpoints({
 export const {
   useGetBooksQuery,
   useSingleBookQuery,
+  useCreateBookMutation,
   useDeleteBookMutation,
   useAddCommentMutation,
 } = bookApi;

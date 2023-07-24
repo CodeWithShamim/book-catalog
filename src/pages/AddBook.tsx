@@ -1,8 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { toast } from "react-hot-toast";
 import TextInput from "../components/ui/TextInput";
 import { IBook } from "../types";
 import { genreData } from "../utils";
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { useCreateBookMutation } from "../redux/features/books/bookApi";
+import { useNavigate } from "react-router-dom";
 
 export default function AddBook() {
   const [bookData, setBookData] = useState<IBook>({
@@ -12,7 +17,10 @@ export default function AddBook() {
     publicationDate: "",
     image: "",
   });
+  const navigate = useNavigate();
+  const [addBook, { isLoading, data }] = useCreateBookMutation();
 
+  // handle input
   const handleOnChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -23,7 +31,8 @@ export default function AddBook() {
     }));
   };
 
-  const handleAddBook = (e: FormEvent<HTMLFormElement>) => {
+  // add book
+  const handleAddBook = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { title, author, genre, publicationDate, image } = bookData;
 
@@ -31,7 +40,21 @@ export default function AddBook() {
       toast.error("Book data is missing");
       return;
     }
+
+    await addBook(bookData);
   };
+
+  useEffect(() => {
+    if (data?.success) {
+      toast.success("Book added successfully!");
+    }
+
+    const timer = setTimeout(() => {
+      data?.success && navigate("/all-books");
+    }, 1300);
+
+    return () => clearTimeout(timer);
+  }, [data, navigate]);
 
   return (
     <form
@@ -78,8 +101,11 @@ export default function AddBook() {
         </select>
       </div>
 
-      <button className="btn btn-primary w-80 md:w-[572px] mt-8 md:ml-28">
-        Added
+      <button
+        disabled={isLoading}
+        className="btn btn-primary w-80 md:w-[572px] mt-8 md:ml-28"
+      >
+        {isLoading ? "Book Adding..." : "Added"}
       </button>
     </form>
   );
