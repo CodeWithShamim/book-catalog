@@ -80,7 +80,7 @@ export default function EditBook() {
   return (
     <form
       onSubmit={handleUpdateBook}
-      className="flex flex-col items-center gap-3 py-16 bg-slate-500 rounded px-4"
+      className="flex flex-col items-center gap-3 py-16 my-16 bg-slate-500 rounded px-4"
     >
       <TextInput
         id="title"

@@ -22,6 +22,12 @@ export default function Home() {
         {/* add loading skeletion */}
         {isLoading && [...Array(10)].map(() => <SkeletonCard />)}
 
+        {book?.length < 1 && (
+          <h1 className="text-xl font-semibold text-red-500 text-center w-[340px] md:w-[1000px]">
+            Book not found! Change search or filters value
+          </h1>
+        )}
+
         {book?.slice(0, 10)?.map((book: IBook) => (
           <BookCard key={book._id} book={book} />
         ))}

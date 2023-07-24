@@ -5,7 +5,7 @@ interface IProps {
   sideType: string;
   type?: string;
   placeholder: string;
-  value: string;
+  value?: string;
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
 }
 

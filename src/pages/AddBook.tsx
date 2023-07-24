@@ -59,7 +59,7 @@ export default function AddBook() {
   return (
     <form
       onSubmit={handleAddBook}
-      className="flex flex-col items-center gap-3 py-16 bg-slate-500 rounded px-4"
+      className="flex flex-col items-center gap-3 py-16 my-16 bg-slate-500 rounded px-4"
     >
       <TextInput
         id="title"
@@ -105,7 +105,7 @@ export default function AddBook() {
         disabled={isLoading}
         className="btn btn-primary w-80 md:w-[572px] mt-8 md:ml-28"
       >
-        {isLoading ? "Book Adding..." : "Added"}
+        {isLoading ? "Book Adding..." : "Add"}
       </button>
     </form>
   );
