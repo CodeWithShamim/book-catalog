@@ -5,6 +5,7 @@ interface IProps {
   sideType: string;
   type?: string;
   placeholder: string;
+  value: string;
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
 }
 
@@ -14,6 +15,7 @@ export default function TextInput({
   type = "text",
   placeholder,
   onChange,
+  value,
 }: IProps) {
   return (
     <div className="flex items-center w-full justify-center">
@@ -27,6 +29,7 @@ export default function TextInput({
         type={type}
         placeholder={placeholder}
         onChange={onChange}
+        value={value}
         className="input input-bordered input-info w-full max-w-xl"
       />
     </div>
