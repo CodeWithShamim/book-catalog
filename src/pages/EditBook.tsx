@@ -129,7 +129,7 @@ export default function EditBook() {
 
       <button
         disabled={isLoading}
-        className="btn btn-primary w-80 md:w-[572px] mt-8 md:ml-28"
+        className="btn btn-primary w-52 md:w-[572px] mt-8 md:ml-28"
       >
         {isLoading ? "Book Editing..." : "Edit"}
       </button>

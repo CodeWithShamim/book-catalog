@@ -119,7 +119,9 @@ export default function BookDetails() {
               )}
             </div>
           ) : (
-            <h1 className="text-xl font-semibold p-32">No data for `{id}`</h1>
+            <h1 className="text-sm md:text-md text-center mx-auto py-32">
+              No data for {id}
+            </h1>
           )}
         </div>
       )}
