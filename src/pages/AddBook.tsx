@@ -8,14 +8,17 @@ import { genreData } from "../utils";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useCreateBookMutation } from "../redux/features/books/bookApi";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../redux/hook";
 
 export default function AddBook() {
+  const { user } = useAppSelector((state) => state.user);
   const [bookData, setBookData] = useState<IBook>({
     title: "",
     author: "",
     genre: "",
     publicationDate: "",
     image: "",
+    ref: user?.email,
   });
   const navigate = useNavigate();
   const [addBook, { isLoading, data }] = useCreateBookMutation();

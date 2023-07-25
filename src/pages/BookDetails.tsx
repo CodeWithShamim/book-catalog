@@ -91,26 +91,30 @@ export default function BookDetails() {
                   Publication date: {book?.publicationDate}
                 </p>
               </div>
-              <div className="flex justify-around mt-auto">
-                <button
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-                  onClick={() => openModal?.confirmModal.showModal()}
-                  disabled={isLoading2}
-                  className="btn btn-error"
-                >
-                  {isLoading2 ? "Deleting..." : "Delete"}
-                </button>
-                <Link
-                  to="/edit-book"
-                  state={{
-                    data: {
-                      book,
-                    },
-                  }}
-                >
-                  <button className="btn btn-success">Edit</button>
-                </Link>
-              </div>
+
+              {/* for authenticate user  */}
+              {user.email === book.ref && (
+                <div className="flex justify-around mt-auto">
+                  <button
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+                    onClick={() => openModal?.confirmModal.showModal()}
+                    disabled={isLoading2}
+                    className="btn btn-error"
+                  >
+                    {isLoading2 ? "Deleting..." : "Delete"}
+                  </button>
+                  <Link
+                    to="/edit-book"
+                    state={{
+                      data: {
+                        book,
+                      },
+                    }}
+                  >
+                    <button className="btn btn-success">Edit</button>
+                  </Link>
+                </div>
+              )}
             </div>
           ) : (
             <h1 className="text-xl font-semibold p-32">No data for `{id}`</h1>

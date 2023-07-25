@@ -11,5 +11,6 @@ export interface IBook {
   genre: string;
   publicationDate: string;
   image: string;
+  ref: string;
   reviews?: IReviews[];
 }

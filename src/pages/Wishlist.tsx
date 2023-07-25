@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { addLocalWishlist } from "../redux/features/wishlist/wishlistSlice";
+import { Link } from "react-router-dom";
 
 export default function Wishlist() {
   const { books } = useAppSelector((state) => state.wishlist);
@@ -39,7 +41,9 @@ export default function Wishlist() {
               <p className="text-sm pb-2">
                 Publication date: {book.publicationDate}
               </p>
-              <img className="object" src={book.image} alt={book.title} />
+              <Link to={`/book-details/${book._id}`}>
+                <img className="object" src={book.image} alt={book.title} />
+              </Link>
             </div>
 
             <div className="form-control">
