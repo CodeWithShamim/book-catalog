@@ -53,7 +53,7 @@ export default function Navbar() {
                 <input
                   onChange={(e) => setSearchValue(e.target.value)}
                   value={searchValue}
-                  className="input input-bordered md:join-item"
+                  className="input input-bordered md:join-item w-28 md:w-52"
                   placeholder="Search books..."
                 />
               </div>
@@ -156,7 +156,7 @@ export default function Navbar() {
                 <button className="btn btn-ghost">
                   <Link to="/wishlist">Wishlist</Link>
                 </button>
-                <button className="btn btn-primary" onClick={handleLogout}>
+                <button className="btn btn-sm md:btn-md" onClick={handleLogout}>
                   Logout
                 </button>
               </>

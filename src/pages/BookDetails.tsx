@@ -94,12 +94,12 @@ export default function BookDetails() {
 
               {/* for authenticate user  */}
               {user.email === book.ref && (
-                <div className="flex justify-around mt-auto">
+                <div className="flex justify-between mt-auto">
                   <button
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
                     onClick={() => openModal?.confirmModal.showModal()}
                     disabled={isLoading2}
-                    className="btn btn-error"
+                    className="btn btn-sm md:btn-md btn-error"
                   >
                     {isLoading2 ? "Deleting..." : "Delete"}
                   </button>
@@ -111,7 +111,9 @@ export default function BookDetails() {
                       },
                     }}
                   >
-                    <button className="btn btn-success">Edit</button>
+                    <button className="btn btn-sm md:btn-md btn-success ml-2 md:ml-0">
+                      Edit
+                    </button>
                   </Link>
                 </div>
               )}
@@ -129,7 +131,7 @@ export default function BookDetails() {
       />
 
       {/* Add reviews  */}
-      <div className="py-16 flex flex-col items-end justify-center">
+      <div className="pt-16 pb-4 flex flex-col items-end justify-center">
         <textarea
           className="textarea textarea-bordered w-full"
           onChange={(e) => setComment(e.target.value)}
@@ -140,7 +142,7 @@ export default function BookDetails() {
         <div className="flex items-center justify-center">
           <select
             onChange={(e) => setRating(Number(e.target.value))}
-            className="select select-bordered w-full max-w-xs mt-2 mr-1"
+            className="select select-sm md:select-md select-bordered w-full max-w-xs mt-2 mr-1"
           >
             <option disabled selected>
               Ratings
@@ -154,7 +156,7 @@ export default function BookDetails() {
           <button
             disabled={isLoading3}
             onClick={handleAddComment}
-            className="btn btn-primary mt-2"
+            className="btn btn-sm md:btn-md btn-primary mt-2"
           >
             {isLoading3 ? "Comment adding..." : "Comment"}
           </button>
@@ -165,18 +167,18 @@ export default function BookDetails() {
       <div>
         {book?.reviews?.map((review: IReviews) => (
           <>
-            <div className="flex items-center justify-start w-full gap-4 mt-4">
+            <div className="flex items-center justify-start w-full gap-2">
               <div className="flex flex-col justify-center items-start w-12">
                 <div className="avatar">
-                  <div className="w-8 h-8 rounded-full">
+                  <div className="w-6 h-6 rounded-full">
                     <img src="/graduation.jpg" />
                   </div>
                 </div>
-                <p className="font-semibold text-xs py-1">{review?.username}</p>
+                <p className="font-serif text-[10px] py-1">
+                  {review?.username}
+                </p>
               </div>
-              <h1 className="text-xl font-sans pb-5 max-w-4xl">
-                {review?.comment}
-              </h1>
+              <h1 className="font-serif pb-5 max-w-4xl">{review?.comment}</h1>
             </div>
             <hr className="h-4 w-full" />
           </>
